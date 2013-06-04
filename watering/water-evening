@@ -1,0 +1,9 @@
+./prep;
+#herbs
+./1; sleep 45; ./off;
+#tomatoes - big
+./2; sleep 150; ./off;
+#tomatoes - small
+./3; sleep 20; ./off;
+#lemon and strawberries
+./4; sleep 90; ./off;
