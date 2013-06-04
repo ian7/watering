@@ -1,0 +1,7 @@
+f=`date +%s`
+weather=`cat /root/weather/last-status`
+#fswebcam -S 3 -r 1280x720 --set brightness=50% --rotate 90 $f.jpg
+fswebcam -S 3 -r 1280x720 --jpeg 80 --set brightness=50% --subtitle "$weather" $f.jpg
+scp $f.jpg nowakm@saw.inf.unisi.ch:/var/www/saw.sonyx.net/private/webcam/
+ssh nowakm@saw.inf.unisi.ch "ln -sf /var/www/saw.sonyx.net/private/webcam/$f.jpg /var/www/saw.sonyx.net/private/webcam/latest.jpg"
+rm $f.jpg
