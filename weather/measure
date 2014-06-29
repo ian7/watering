@@ -54,14 +54,18 @@ for x in range(1, 11):
 #sorting and taking 5th value effectively calculates median :)
 #
 temperature = commands.getstatusoutput('/root/temperature/measure')
-
 values.sort()
+
+# this measures soil sensors
+soil1= str(RCtime(8))
+soil2= str(RCtime(7))
 
 # print stuff to stdout
 print "%s %s %s %1.3f" % ( time.strftime('%m/%d/%Y'),  time.strftime('%H:%M'), temperature[1], values[5] ) 
 
+
 import MySQLdb
-conn = MySQLdb.connect(host= "192.168.0.1",
+conn = MySQLdb.connect(host= "10.166.0.1",
                   user="pi",
                   passwd="aLeks1pi",
                   db="watering")
@@ -69,13 +73,13 @@ x = conn.cursor()
 tempValue = temperature[1].split(' ')[0]
 humValue = temperature[1].split(' ')[1]
 timeValue = time.strftime('%Y-%m-%d %H:%M:%S')
-x.execute("""INSERT INTO weather (time,temperature,humidity,light) VALUES (%s,%s,%s,%s)""",(timeValue,tempValue,humValue,values[5]))
+x.execute("""INSERT INTO weather (time,temperature,humidity,light,soil1, soil2) VALUES (%s,%s,%s,%s,%s,%s)""",(timeValue,tempValue,humValue,values[5],soil1,soil2))
 conn.commit()
 conn.close()
 
 
 # print output to the file
 f = open('/root/weather/last-status','w')
-f.write("Temp: %s C  Humidity: %s %% Light: %1.3f" % ( tempValue, humValue, values[5] ) )
+f.write("Temp: %s C  Humidity: %s %% Light: %1.3f s1: %s s2: %s " % ( tempValue, humValue, values[5], soil1, soil2 ) )
 f.close()
 
