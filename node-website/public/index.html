@@ -111,7 +111,25 @@
                         }
                     },
                     opposite: true
-                }],
+                }, { // Fourth yAxis (soil sensosrs)
+                    gridLineWidth: 0,
+                    title: {
+                        text: 'Soil humidity',
+                        style: {
+                            color: '#111111'
+                        }
+                    },
+                    labels: {
+                        formatter: function() {
+                            return this.value +' ';
+                        },
+                        style: {
+                            color: '#AA4643'
+                        }
+                    },
+                    opposite: true
+                }
+                ],
                 tooltip: {
                     shared: true
                 },
@@ -152,9 +170,28 @@
                     name: 'Humidity',
                     color: '#89A54E',
                     type: 'spline',
+                    yAxis: 3,
                     data: [],
                     tooltip: {
                         valueSuffix: ' %'
+                    }
+                }, {
+                    //yAxis: 4,
+                    name: 'Soil1',
+                    color: '#800000',
+                    type: 'spline',
+                    data: [],
+                    tooltip: {
+                        valueSuffix: ' .'
+                    }
+                },{
+                    //yAxis: 4,
+                    name: 'Soil2',
+                    color: '#c0c0c0',
+                    type: 'spline',
+                    data: [],
+                    tooltip: {
+                        valueSuffix: ' .'
                     }
                 }]
             });
@@ -165,7 +202,13 @@
         });
 
         $.get('/weather/humidity',function( val ) { 
+
+            var min = Math.min.apply(null, val),
+            max = Math.max.apply(null, val);
+
+
             cc.series[2].setData(val); 
+            //cc.yAxis[2].setExtremes(min,max);
         });
 
         $.get('/weather/light',function( val ) { 
@@ -189,6 +232,26 @@
 
         });
 
+        $.get('/weather/soil1',function( val ) { 
+
+        var min = Math.min.apply(null, val),
+            max = Math.max.apply(null, val);
+
+            cc.series[3].setData(val); 
+    
+            //cc.yAxis[3].setExtremes(min,max);
+
+        });
+        $.get('/weather/soil2',function( val ) { 
+
+        var min = Math.min.apply(null, val),
+            max = Math.max.apply(null, val);
+
+            cc.series[4].setData(val); 
+    
+            //cc.yAxis[3].setExtremes(min,max);
+
+        });
 
 
 
